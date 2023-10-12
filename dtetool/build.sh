@@ -1,6 +1,11 @@
-#!/bin/sh
-
-echo -n 'const char *usage_text = ' > usage.h
-fold -w 80 -s -b usage | sed 's/.*/"\0\\n"/g' >> usage.h
-echo -n ';' >> usage.h
-gcc dtefunc.c dtetool.c -g -Wall -o dtetool
+./xnu-qemu-arm64-5.1.0/aarch64-softmmu/qemu-system-aarch64 \
+-M macos11-j273-a12z,\
+kernel-filename=kernelcache.release.j273.out,\
+dtb-filename=DeviceTree.j273aap.im4p.out.patched,\
+ramdisk-filename=arm64eSURamDisk.dmg.out,\
+kern-cmd-args="kextlog=0xfff cpus=1 rd=md0 serial=2 -noprogress",\
+xnu-ramfb=off \
+-cpu max \
+-m 6G \
+-serial mon:stdio \
+-nographic \
